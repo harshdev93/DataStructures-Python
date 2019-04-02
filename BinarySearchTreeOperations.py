@@ -138,7 +138,40 @@ class Tree:
         # replace the node to be deleted with the inorder successor
         elif curr.left != None and curr.right != None:
             self.searchForSuccessor(curr)
-
+    
+    def LevelOrderTraversal(self,x):
+        s = queue.Queue()
+        s.put(x)
+        while s.empty() == False:
+            node = s.get()
+            print(node.data)
+            if node.left != None:
+                s.put(node.left)
+            if node.right!= None:
+                s.put(node.right)
+    
+    # ZigZag traversal right->left->right...
+    def zigzag(self,x):
+        #initialize 2 stacks
+        s1 = []
+        s2 = []
+        curr = x
+        s1.append(curr)
+        while len(s1) != 0 or len(s2) != 0:
+            while len(s1) != 0:
+                temp = s1.pop()
+                if temp.left != None:
+                    s2.append(temp.left)
+                if temp.right != None:
+                    s2.append(temp.right)
+                print(temp.data)
+            while len(s2) != 0:
+                temp = s2.pop()
+                if temp.right != None:
+                    s1.append(temp.right)
+                if temp.left != None:
+                    s1.append(temp.left)
+                print(temp.data)
 
     # searching for a node
     def search(self,key):
@@ -205,6 +238,12 @@ tree.delete(15)
 
 tree.inorder(tree.root)
 
+print("Level Order Traversal")
+tree.LevelOrderTraversal(tree.root)
+
+print("ZigZag Traversal")
+tree.zigzag(tree.root)
+
 # tree.search(3)
 # tree.delete(3)
 
@@ -215,3 +254,5 @@ tree.inorder(tree.root)
 # https://stackoverflow.com/questions/300935/are-duplicate-keys-allowed-in-the-definition-of-binary-search-trees
 # https://gist.github.com/samidhtalsania/6659380
 # https://www.youtube.com/watch?v=ZM-sV9zQPEs&t=519s
+# https://docs.python.org/3/library/asyncio-queue.html
+# https://www.youtube.com/watch?v=vjt5Y6-1KsQ
