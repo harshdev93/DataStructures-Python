@@ -172,6 +172,64 @@ class Tree:
                 if temp.left != None:
                     s1.append(temp.left)
                 print(temp.data)
+    
+    # Store parent node of each node in a dict
+    def getParentNode(self,x):
+        q = queue.Queue()
+        q.put(x)
+        d = {} # initialize a dict
+        # d[x] = None
+        while q.empty() == False:
+            temp = q.get()
+            if temp == x:
+                d[temp] = None
+            if temp.left != None:
+                q.put(temp.left)
+                d[temp.left] = temp
+            if temp.right!= None:
+                q.put(temp.right)
+                d[temp.right] = temp
+        return d
+
+    # Print all nodes at distance k from a given node
+    def allNodesAtDistanceK(self,target,k):
+        start = self.search(target)
+
+        parent_map = self.getParentNode(self.root)
+
+        q = queue.Queue()
+        seen_dict = {}
+        seen_dict[start] = 1
+        q.put(start)
+        level = 0
+        while q.empty() == False:
+            if level == k:
+                for i in range(q.qsize()):
+                    print("Nodes at distance K are:", q.get().data)
+                break
+            x = q.qsize()
+            i = 0
+            while i < x:
+                temp = q.get()
+
+                print(temp.data)
+                if temp.left != None:
+                    # q.put(temp.left)
+                    if temp.left not in seen_dict:
+                        q.put(temp.left)
+                    seen_dict[temp.left] = 1
+                    # seen_dict[temp.left] = 1
+                if temp.right!= None:
+                    # q.put(temp.right)
+                    if temp.right not in seen_dict:
+                        q.put(temp.right)
+                    seen_dict[temp.right] = 1
+                    # seen_dict[temp.right] = 1
+                if parent_map[temp] != None:
+                    if parent_map[temp] not in seen_dict:
+                        q.put(parent_map[temp])
+                i = i + 1
+            level = level + 1
 
     # searching for a node
     def search(self,key):
@@ -247,6 +305,11 @@ tree.zigzag(tree.root)
 # tree.search(3)
 # tree.delete(3)
 
+# print("Get Parent node")
+# tree.getParentNode(tree.root)
+
+print("All nodes at distance k")
+tree.allNodesAtDistanceK(5,2)
 
 
 # References:
@@ -256,3 +319,4 @@ tree.zigzag(tree.root)
 # https://www.youtube.com/watch?v=ZM-sV9zQPEs&t=519s
 # https://docs.python.org/3/library/asyncio-queue.html
 # https://www.youtube.com/watch?v=vjt5Y6-1KsQ
+# https://www.youtube.com/watch?v=nPtARJ2cYrg
